@@ -265,7 +265,6 @@ export class Sound {
           this.source.disconnect();
         } catch (e) {
           console.log('COULD NOT BE STOPPED: ', e);
-          // Ignored. Happens on Safari sometimes. Can't stop a sound which may not be really playing?
         }
       }
     }
