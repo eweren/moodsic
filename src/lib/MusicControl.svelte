@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import { soundAndMusicMixer, currentMusic } from './stores';
   import SvgIcon from './SvgIcon.svelte';
+  import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION} from '../utils/constants';
   import VolumeControl from './VolumeControl.svelte';
   export let isPaused = true;
   export let color = '#FFF';
@@ -17,7 +19,8 @@
     }
   }
 </script>
-<div class="host">
+
+<div class="host" in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
   <div class="controlWrapper" style="fill: {color}; color: {color}">
     {#if $currentMusic?.title}
       <a href={$currentMusic.url}>{$currentMusic.title}</a>

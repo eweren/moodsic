@@ -1,0 +1,66 @@
+<script lang="ts">
+  import { fly } from 'svelte/transition';
+  import { Sounds } from './data';
+  import SvgIcon from './SvgIcon.svelte';
+  import VolumeControl from './VolumeControl.svelte';
+  import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION } from '../utils/constants';
+
+  export let color = '#FFF';
+  export let showBox = false;
+</script>
+
+<div class="host">
+  {#if showBox}
+    <div class="volumes" on:click|stopPropagation|preventDefault in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
+      <div class="close" on:click|stopPropagation|preventDefault={() => showBox = false}>X</div>
+      <h2>Sounds</h2>
+      {#each Sounds as sound}
+        <VolumeControl color={color} label={sound.title} src={sound.src} />
+      {/each}
+    </div>
+  {:else}
+  <div class="loud" style="fill: {color}" on:click|stopPropagation|preventDefault={() => showBox = true} in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
+    <SvgIcon name="loud" size="60" />
+  </div>
+  {/if}
+</div>
+
+<style>
+  .host {
+    position: absolute;
+    bottom: var(--size-4);
+    left: var(--size-4);
+    z-index: 7;
+  }
+  .volumes {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 300px;
+    align-items: center;
+    justify-content: space-between;
+    overflow-y: auto;
+    text-align: center;
+    color: white;
+    font-size: var(--size-3);
+    gap: var(--size-2);
+    background: var(--color-grey-900);
+    box-shadow: 4px 4px 0px 0px var(--color-green-500);
+  }
+  .volumes .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: var(--size-2);
+    cursor: pointer;
+  }
+  .loud {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+  }
+</style>

@@ -3,42 +3,27 @@
   import './lottie-player.js';
   import MusicControl from './lib/MusicControl.svelte'
   import AddToHome from './lib/AddToHome.svelte'
-  import { Sounds, Lotties } from './lib/data';
-	import { onMount } from 'svelte';
+  import { Lotties } from './lib/data';
   import SvgIcon from './lib/SvgIcon.svelte';
-  import MyIcon from '/icons/prev.svg';
   import type { LottiePlayer } from "@lottiefiles/lottie-player";
-  import VolumeControl from './lib/VolumeControl.svelte';
-	import { fade } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
+  import Volumes from './lib/Volumes.svelte';
+  import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION } from './utils/constants';
+  import FullScreen from './lib/FullScreen.svelte';
+  import { soundAndMusicMixer } from './lib/stores';
 
   const HIDE_DURATION = 2000;
   const LottieBackgroundKey = 'lottieIndex';
 
   let lottieIndex = parseInt(localStorage.getItem(LottieBackgroundKey) ?? '0', 10);
   let showControls = true;
+  let volumesOpen = false;
+  let feedbackOpen = false;
   let lottie = Lotties[lottieIndex];
   let lottiePlayer: Partial<LottiePlayer>;
+  let isPaused = false;
 
   let timeout: any;
-  let lastClickTimestamp: number;
-
-	onMount(async () => {
-    const body = document.body;
-    body.style.overflow = "hidden";
-    addEventListener('click', () => {
-      const d = new Date().valueOf();
-      if (lastClickTimestamp && d - lastClickTimestamp < 500) {
-        if (document.fullscreenElement) {
-          document.exitFullscreen();
-        } else {
-          document.documentElement.requestFullscreen();
-        }
-        lastClickTimestamp = undefined;
-      } else {
-        lastClickTimestamp = d;
-      }
-    });
-  });
 
   function handleClick() {
     if (!showControls) {
@@ -88,6 +73,23 @@
 	on:mousemove={() => handleClick()}
 	on:click={() => handleClick()}
 />
+
+<svelte:window on:keydown|preventDefault={(e) => {
+  handleClick();
+  if (e.key === ' ') {
+    isPaused = !isPaused;
+    if (isPaused) {
+      $soundAndMusicMixer.stopMusic();
+    } else {
+      $soundAndMusicMixer.playMusic();
+    }
+  } else if (e.key === 'ArrowRight') {
+    setNextBackground();
+  } else if (e.key === 'ArrowLeft') {
+    setLastBackground();
+  }
+}} />
+
 <div class="host">
   <div id="videoWrapper">
       <lottie-player id="video"
@@ -105,23 +107,18 @@
   <audio controls style="position: absolute;opacity: 0; z-index: -99999" id="fakeAudio" preload="auto">
       <source src="sounds/silence.ogg" type="audio/ogg">
   </audio>
-  {#if showControls}
-    <AddToHome color={lottie.controlColor} />
-    <FeedbackIcon />
-    <div transition:fade="{{duration: 400}}">
-        <div class="volumes">
-          {#each Sounds as sound}
-            <VolumeControl color={lottie.volumesColor} label={sound.title} src={sound.src} />
-          {/each}
-        </div>
-        <MusicControl color={lottie.controlColor} />
-        <button class="backgroundImageButton" aria-label="Previous Background" style={`fill: ${lottie.controlColor}`} on:click|stopPropagation={setLastBackground}>
-            <SvgIcon name="prev" />
-        </button>
-        <button class="backgroundImageButton" aria-label="Next Background" style={`fill: ${lottie.controlColor}`} on:click|stopPropagation={setNextBackground}>
-            <SvgIcon name="prev" />
-        </button>
-    </div>
+  {#if showControls || volumesOpen || feedbackOpen}
+    <FeedbackIcon show={showControls} bind:showInput={feedbackOpen} />
+    <Volumes bind:showBox={volumesOpen} color={lottie.bottomColor}/>
+    <FullScreen color={lottie.topColor} />
+    <AddToHome color={lottie.bottomColor} />
+    <MusicControl color={lottie.bottomColor} bind:isPaused={isPaused} />
+    <button in:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" class="backgroundImageButton" aria-label="Previous Background" style={`fill: ${lottie.bottomColor}`} on:click|stopPropagation={setLastBackground}>
+        <SvgIcon name="prev" />
+    </button>
+    <button in:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" class="backgroundImageButton" aria-label="Next Background" style={`fill: ${lottie.bottomColor}`} on:click|stopPropagation={setNextBackground}>
+        <SvgIcon name="prev" />
+    </button>
   {/if}
 </div>
 
@@ -149,14 +146,6 @@
   }
   #video {
     position: absolute;
-  }
-  .volumes {
-    justify-content: center;
-    align-items: center;
-    display: grid;
-    flex-direction: column;
-    gap: var(--scale-00);
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
   .backgroundImageButton {
     z-index: 1;

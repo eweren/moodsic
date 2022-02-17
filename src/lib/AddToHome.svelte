@@ -29,14 +29,14 @@
 
 {#if visible}
   <div id="addToHome" on:click|preventDefault={() => promptUser()} style={`fill: ${color}`}>
-    <SvgIcon name="arc" width="40" height="40" />
+    <SvgIcon name="arc" size="40" />
   </div>
 {/if}
 
 <style>
   #addToHome {
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     left: 20px;
     width: 40px;
     height: 40px;
@@ -45,7 +45,7 @@
     transition: all 0.3s ease-in-out;
   }
   #addToHome:hover {
-    padding-top: 20px;
-    bottom: -10px;
+    padding-bottom: 20px;
+    top: -10px;
   }
 </style>

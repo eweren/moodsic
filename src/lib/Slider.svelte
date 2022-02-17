@@ -26,18 +26,16 @@ import { createEventDispatcher } from 'svelte';
   width: 100%;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  margin-bottom: 8px;
+  margin: 4px 0;
   gap: var(--scale-00);
 }
 .slider {
   -webkit-appearance: none;
   width: 100%;
   height: 10px;
-  background: none;
+  background: transparent;
   border: 1px solid;
   outline: none;
-  border-radius: var(--radius-full);
   -webkit-transition: .2s;
   transition: opacity .2s;
 }
@@ -53,7 +51,7 @@ import { createEventDispatcher } from 'svelte';
   height: 25px;
   background: currentColor;
   cursor: pointer;
-  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0px 0px var(--color-green-500);
 }
 
 .slider::-moz-range-thumb {
@@ -61,6 +59,6 @@ import { createEventDispatcher } from 'svelte';
   height: 25px;
   background: currentColor;
   cursor: pointer;
-  border-radius: var(--radius-full);
+  box-shadow: 2px 2px 0px 0px var(--color-green-500);
 }
 </style>
