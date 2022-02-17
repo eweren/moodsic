@@ -13,14 +13,13 @@ import { createEventDispatcher } from 'svelte';
       dispatch('valueChange', value);
     }
   }
-
 </script>
-<div class="host">
-  <label for="slider" style={`color: ${color}`}>{label}</label>
-  <input name="slider" style={`color: ${color}; borderColor: ${color}`} on:click|preventDefault|stopPropagation class={`slider ${+value === 0 ? 'offSlider' : ''}`} type="range" min="0" max="1" step="0.01" bind:value on:input|preventDefault={onValueChange} />
-</div>
-<style>
 
+<label class="host" style={`color: ${color}`}>{label}
+  <input style={`color: ${color}; borderColor: ${color}`} on:click|preventDefault|stopPropagation class={`slider ${+value === 0 ? 'offSlider' : ''}`} type="range" min="0" max="1" step="0.01" bind:value on:input|preventDefault={onValueChange} />
+</label>
+
+<style>
 .host {
   display: inline-flex;
   flex-direction: column;
