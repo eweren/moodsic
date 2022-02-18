@@ -1,3 +1,4 @@
+/** Type of a soundfile containing all relevant information */
 export type SoundFile = {src: string, title: string, duration?: number, artist?: string, url?: string};
 
 /** An array of all available music files. */

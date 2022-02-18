@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { soundAndMusicMixer } from './stores';
 	import { onMount } from 'svelte';
-import Slider from './Slider.svelte';
+  import { soundAndMusicMixer } from './stores';
+  import Slider from './Slider.svelte';
 
   export let src: string = undefined;
   export let label = '';
@@ -12,7 +12,7 @@ import Slider from './Slider.svelte';
     volume = src == null ? $soundAndMusicMixer.musicVolume : 0;
   });
 
-  function _onVolumeChange(event: any) {
+  function _onVolumeChange(event: any): void {
     const soundToChange = $soundAndMusicMixer.sounds.find((v) => v.src === src);
     if (event.detail != null && soundToChange && src) {
       volume = event.detail;
@@ -22,6 +22,7 @@ import Slider from './Slider.svelte';
     }
   }
 </script>
+
 <div class="control">
   <Slider color={color} label={label} value={volume} on:valueChange={_onVolumeChange} />
 </div>

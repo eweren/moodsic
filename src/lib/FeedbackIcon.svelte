@@ -1,27 +1,27 @@
 <script lang="ts">
-  import '../lottie-player.js';
 	import { fly } from 'svelte/transition';
   import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION } from '../utils/constants';
 
   export let show = false;
   export let showInput = false;
+
   let feedbackIcon: any;
   let title = "";
   let description = "";
   let success = false;
   let feedbackTransmitted = false;
 
-  function playFeedback() {
+  function playFeedback(): void {
     feedbackIcon?.setDirection(1);
     feedbackIcon?.play();
   }
 
-  function completeFeedbackAnimation() {
+  function completeFeedbackAnimation(): void {
     feedbackIcon?.stop();
     feedbackIcon?.seek('0%');
   }
 
-  function stopFeedback() {
+  function stopFeedback(): void {
     feedbackIcon?.setDirection(-1);
   }
 
@@ -86,7 +86,6 @@
       </lottie-player></div>
     {/if}
 </div>
-
 
 <style>
   #errorPlayer {

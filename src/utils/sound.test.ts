@@ -2,18 +2,18 @@
  * @jest-environment jsdom
  */
 
-import { MusicFiles, SoundFile, TotalMusicDuration } from './data';
+import { MusicFiles, SoundFile, TotalMusicDuration } from '../lib/data';
 import { MusicAndSoundMixer } from './sound';
 
 test('Should have correct first song', async () => {
-  const musicMixer = MusicAndSoundMixer.getMixerInstance();
+  const musicMixer = new MusicAndSoundMixer();
   const song = musicMixer.getNextSongWithStartDate(new Date(1));
   expect(song.sound.title).toEqual('Acceptance');
   expect(song.nextSound.title).toEqual('All in a Day');
 });
 
 test('Should have correct random song', async () => {
-  const musicMixer = MusicAndSoundMixer.getMixerInstance();
+  const musicMixer = new MusicAndSoundMixer();
   const randomTimeStamp = Math.round(Math.random() * TotalMusicDuration * 1000 + new Date().valueOf());
   const currentSecondInPlaylist = randomTimeStamp / 1000 % TotalMusicDuration;
   let songAtPosition: SoundFile & {duration: number} | undefined;

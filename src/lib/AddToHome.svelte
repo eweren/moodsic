@@ -1,11 +1,15 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import SvgIcon from './SvgIcon.svelte';
+  import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION } from '../utils/constants';
+
+  export let color = '#fff';
+
   let visible = false;
   let deferredPrompt: any;
-  export let color = '#fff';
   const AddToHomeKey = 'AddToHome'
 
-  function promptUser() {
+  function promptUser() : void{
     visible = false;
     // Show the prompt
     deferredPrompt?.prompt();
@@ -28,7 +32,7 @@
 />
 
 {#if visible}
-  <div id="addToHome" on:click|preventDefault={() => promptUser()} style={`fill: ${color}`}>
+  <div id="addToHome" on:click|preventDefault={() => promptUser()} style={`fill: ${color}`} in:fly="{{ y: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
     <SvgIcon name="arc" size="40" />
   </div>
 {/if}

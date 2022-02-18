@@ -4,10 +4,11 @@
   import SvgIcon from './SvgIcon.svelte';
   import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION} from '../utils/constants';
   import VolumeControl from './VolumeControl.svelte';
+
   export let isPaused = true;
   export let color = '#FFF';
 
-  async function _onClick(ev: Event) {
+  async function _onClick(ev: Event): Promise<void> {
     ev.stopPropagation();
     ev.preventDefault();
     if ($currentMusic) {

@@ -1,12 +1,12 @@
 <script lang="ts">
-  import FeedbackIcon from './lib/FeedbackIcon.svelte';
+  import { fly } from 'svelte/transition';
+  import type { LottiePlayer } from "@lottiefiles/lottie-player";
   import './lottie-player.js';
+  import FeedbackIcon from './lib/FeedbackIcon.svelte';
   import MusicControl from './lib/MusicControl.svelte'
   import AddToHome from './lib/AddToHome.svelte'
   import { Lotties } from './lib/data';
   import SvgIcon from './lib/SvgIcon.svelte';
-  import type { LottiePlayer } from "@lottiefiles/lottie-player";
-	import { fly } from 'svelte/transition';
   import Volumes from './lib/Volumes.svelte';
   import { DEFAULT_TRANSITION_DISTANCE, DEFAULT_TRANSITION_DURATION } from './utils/constants';
   import FullScreen from './lib/FullScreen.svelte';
@@ -25,7 +25,7 @@
 
   let timeout: any;
 
-  function handleClick() {
+  function handleClick(): void {
     if (!showControls) {
       showControls = true;
     }
@@ -37,17 +37,17 @@
     }, HIDE_DURATION);
   }
 
-  function setLastBackground() {
+  function setLastBackground(): void {
     lottieIndex = (lottieIndex + Lotties.length - 1) % Lotties.length;
     updateBackgroundState();
   }
 
-  function setNextBackground() {
+  function setNextBackground(): void {
     lottieIndex = (lottieIndex + 1) % Lotties.length;
     updateBackgroundState();
   }
 
-  function updateBackgroundState() {
+  function updateBackgroundState(): void {
     localStorage.setItem(LottieBackgroundKey, `${lottieIndex}`);
     lottie = Lotties[lottieIndex];
 
@@ -71,7 +71,8 @@
 <svelte:body
 	on:mouseenter={() => handleClick()}
 	on:mousemove={() => handleClick()}
-	on:click={() => handleClick()}
+	on:click|preventDefault={() => handleClick()}
+  on:contextmenu|preventDefault
 />
 
 <svelte:window on:keydown|preventDefault={(e) => {
