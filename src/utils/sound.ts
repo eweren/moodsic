@@ -7,7 +7,7 @@ import {
 } from '../lib/data';
 import { currentMusic } from '../lib/stores';
 
-const AudioContext = window.AudioContext ?? (window as any).webkitAudioContext as AudioContext;
+const AudioContext = window.AudioContext || (window as any).webkitAudioContext as AudioContext;
 export const SavedGainKey = 'savedGain';
 let audioContext: AudioContext | null = null;
 let globalGainNode: GainNode | null = null;
