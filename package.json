@@ -13,7 +13,9 @@
   },
   "devDependencies": {
     "@lottiefiles/lottie-player": "^1.5.5",
+    "@magenta/music": "^1.23.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@tensorflow/tfjs-core": "^2.8.6",
     "@thearc/eslint-config": "^0.0.5",
     "@tsconfig/svelte": "^2.0.1",
     "@types/jest": "^27.4.0",
@@ -29,6 +31,7 @@
     "vite-plugin-svelte-svg": "^1.0.0"
   },
   "dependencies": {
-    "pollen-css": "^4.2.0"
+    "pollen-css": "^4.2.0",
+    "tone": "^14.7.77"
   }
 }
