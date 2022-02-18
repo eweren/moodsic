@@ -15,7 +15,7 @@
       <div class="close" on:click|stopPropagation|preventDefault={() => showBox = false}>X</div>
       <h2>Sounds</h2>
       {#each Sounds as sound}
-        <VolumeControl color={color} label={sound.title} src={sound.src} />
+        <VolumeControl color="#FFF" label={sound.title} src={sound.src} />
       {/each}
     </div>
   {:else}
@@ -32,6 +32,10 @@
     left: var(--size-4);
     z-index: 7;
   }
+  .volumes::-webkit-scrollbar {
+    display: none;
+  }
+
   .volumes {
     position: absolute;
     bottom: 0;
@@ -49,6 +53,8 @@
     gap: var(--size-2);
     background: var(--color-grey-900);
     box-shadow: 4px 4px 0px 0px var(--color-green-500);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   .volumes .close {
     position: absolute;

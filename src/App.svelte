@@ -109,7 +109,7 @@
       <source src="sounds/silence.ogg" type="audio/ogg">
   </audio>
   {#if showControls || volumesOpen || feedbackOpen}
-    <FeedbackIcon show={showControls} bind:showInput={feedbackOpen} />
+    <FeedbackIcon show={showControls || volumesOpen || feedbackOpen} bind:showInput={feedbackOpen} />
     <Volumes bind:showBox={volumesOpen} color={lottie.bottomColor}/>
     <FullScreen color={lottie.topColor} />
     <AddToHome color={lottie.bottomColor} />
