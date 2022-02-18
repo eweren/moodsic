@@ -6,6 +6,7 @@
   export let showInput = false;
 
   let feedbackIcon: any;
+  let requesting = false;
   let title = "";
   let description = "";
   let success = false;
@@ -26,6 +27,7 @@
   }
 
   async function sendFeedback(): Promise<void> {
+    requesting = true;
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
@@ -41,6 +43,7 @@
 
     const res = await fetch("https://servicebridge.thearc.dev/moodsic", requestOptions)
       .then(response => response.text()).catch(() => {success = false})
+    requesting = false;
     feedbackTransmitted = true;
     if (res === "true") {
       success = true;
@@ -63,7 +66,7 @@
         Description:
         <input on:keydown|stopPropagation placeholder="Little description please." type="text" bind:value={description} />
       </label>
-      <button disabled={title.length < 4} type="button" on:click|preventDefault|stopPropagation={() => sendFeedback()}>Send feedback!</button>
+      <button disabled={title.length < 4 || requesting} type="button" on:click|preventDefault|stopPropagation={() => sendFeedback()}>Send feedback!</button>
     </div>
     {:else if showInput && success}
       <div class="contentBox">
