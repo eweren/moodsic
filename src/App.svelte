@@ -75,7 +75,7 @@
   on:contextmenu|preventDefault
 />
 
-<svelte:window on:keydown|preventDefault={(e) => {
+<svelte:window on:keydown={(e) => {
   handleClick();
   if (e.key === ' ') {
     isPaused = !isPaused;

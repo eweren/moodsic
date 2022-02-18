@@ -51,14 +51,17 @@
 <div id="errorPlayer" on:click|stopPropagation>
   {#if showInput && !feedbackTransmitted}
     <div class="contentBox" in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
-      <div class="close" on:click|stopPropagation|preventDefault={() => showInput = false}>X</div>
+      <div class="header">
+        Got some Feedback?
+        <div class="close" on:click|stopPropagation|preventDefault={() => showInput = false}>X</div>
+    </div>
       <label>
         Title:
-        <input placeholder="What's your feedback?" type="text" bind:value={title} />
+        <input on:keydown|stopPropagation placeholder="What's your feedback?" type="text" bind:value={title} />
       </label>
       <label>
         Description:
-        <input placeholder="Little description please." type="text" bind:value={description} />
+        <input on:keydown|stopPropagation placeholder="Little description please." type="text" bind:value={description} />
       </label>
       <button disabled={title.length < 4} type="button" on:click|preventDefault|stopPropagation={() => sendFeedback()}>Send feedback!</button>
     </div>
@@ -106,29 +109,38 @@
     position: absolute;
     color: white;
     bottom: 0;
-    width: 150px;
+    width: 200px;
     right: 0;
     display: flex;
     flex-direction: column;
     font-size: var(--size-3);
-    gap: var(--size-2);
-    padding: var(--size-4);
     background: var(--color-grey-900);
     transition: opacity 0.3s var(--easing-standard);
     box-shadow: 4px 4px 0px 0px var(--color-green-500);
   }
+  .contentBox .header {
+    padding: var(--size-2) var(--size-4);
+    padding-right: 0;
+    font-size: var(--size-4);
+    font-weight: semibold;
+    background: var(--color-green-500);
+    margin: -var(--size-4);
+    display: flex;
+    align-items: center;
+  }
   .contentBox .close {
-    position: absolute;
-    top: 0;
-    right: 0;
+    flex: 0 0 auto;
     padding: var(--size-2);
     cursor: pointer;
   }
   .contentBox label {
+    padding: var(--size-4);
     color: white;
   }
   .contentBox input[type='text'] {
     margin-top: var(--size-2);
+    width: 100%;
+    box-sizing: border-box;
     border: 2px solid var(--color-green-500);
     padding: var(--size-1);
     background: var(--color-grey-800);
@@ -141,7 +153,7 @@
     box-shadow: 2px 2px 0px 0px var(--color-green-500);
   }
   .contentBox button {
-    margin-top: var(--size-2);
+    margin: var(--size-4);
     border: 2px solid var(--color-green-500);
     padding: var(--size-1);
     background: var(--color-grey-800);
