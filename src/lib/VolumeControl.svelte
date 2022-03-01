@@ -7,6 +7,7 @@
   export let label = '';
   export let color = '#FFF';
   export let volume = 0;
+  export let title = '';
 
   onMount(() => {
     volume = src == null ? $soundAndMusicMixer.musicVolume : 0;
@@ -23,7 +24,7 @@
   }
 </script>
 
-<div class="control">
+<div class="control" title={title}>
   <Slider color={color} label={label} value={volume} on:valueChange={_onVolumeChange} />
 </div>
 
@@ -31,6 +32,7 @@
   .control {
     padding: var(--size-2) var(--size-3);
     display: flex;
+    border-radius: 500px;
     align-items: center;
     justify-content: center;
   }

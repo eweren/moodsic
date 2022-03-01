@@ -12,7 +12,7 @@
   import FullScreen from './lib/FullScreen.svelte';
   import { soundAndMusicMixer } from './lib/stores';
 
-  const HIDE_DURATION = 2000;
+  const HIDE_DURATION = 4000;
   const LottieBackgroundKey = 'lottieIndex';
 
   let lottieIndex = parseInt(localStorage.getItem(LottieBackgroundKey) ?? '0', 10);

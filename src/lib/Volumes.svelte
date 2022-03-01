@@ -11,15 +11,17 @@
 
 <div class="host">
   {#if showBox}
-    <div class="volumes" on:click|stopPropagation|preventDefault in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
-      <div class="close" on:click|stopPropagation|preventDefault={() => showBox = false}>X</div>
+  <div  in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
+    <div class="volumes" on:click|stopPropagation|preventDefault>
       <h2>Sounds</h2>
       {#each Sounds as sound}
-        <VolumeControl color="#FFF" label={sound.title} src={sound.src} />
+      <VolumeControl color="#FFF" label={sound.title} src={sound.src} />
       {/each}
     </div>
+    <div class="close" on:click|stopPropagation|preventDefault={() => showBox = false}>X</div>
+    </div>
   {:else}
-  <div class="loud" style="fill: {color}" on:click|stopPropagation|preventDefault={() => showBox = true} in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
+  <div class="loud" title="Create your atmosphere sounds" style="fill: {color}" on:click|stopPropagation|preventDefault={() => showBox = true} in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
     <SvgIcon name="loud" size="60" />
   </div>
   {/if}
@@ -37,9 +39,6 @@
   }
 
   .volumes {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     display: flex;
     flex-direction: column;
     width: 180px;
@@ -56,8 +55,9 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .volumes .close {
+  .close {
     position: absolute;
+    color: white;
     top: 0;
     right: 0;
     padding: var(--size-2);

@@ -8,9 +8,7 @@
   export let isPaused = true;
   export let color = '#FFF';
 
-  async function _onClick(ev: Event): Promise<void> {
-    ev.stopPropagation();
-    ev.preventDefault();
+  async function onPlayPause(ev: Event): Promise<void> {
     if ($currentMusic) {
       isPaused = true;
       $soundAndMusicMixer.stopMusic();
@@ -18,6 +16,14 @@
       isPaused = false;
       await $soundAndMusicMixer.playMusic();
     }
+  }
+
+  async function onNext(ev: Event): Promise<void> {
+    $soundAndMusicMixer.playNextSong();
+  }
+
+  async function onPrevious(ev: Event): Promise<void> {
+    $soundAndMusicMixer.playPreviousSong();
   }
 </script>
 
@@ -27,14 +33,22 @@
       <a href={$currentMusic.url}>{$currentMusic.title}</a>
     {/if}
     <div class="control">
-      <button aria-label="Play or stop Music" on:click={_onClick}>
+      <button aria-label="Play or stop Music" class="rotate-180" on:click|preventDefault|stopPropagation={onPrevious}>
+        <SvgIcon name="skip-forward" />
+      </button>
+      <button aria-label="Play or stop Music" style="z-index: 10" on:click|preventDefault|stopPropagation={onPlayPause}>
         {#if $currentMusic}
-          <SvgIcon name="stop" />
+        <SvgIcon name="stop" />
         {:else}
-          <SvgIcon name="play" />
+        <SvgIcon name="play" />
         {/if}
       </button>
-      <VolumeControl color={color} />
+      <button aria-label="Play or stop Music" on:click|preventDefault|stopPropagation={onNext}>
+        <SvgIcon name="skip-forward" />
+      </button>
+    </div>
+    <div class="volume-control">
+      <VolumeControl title="Adjust music volume" color={color} />
     </div>
   </div>
 </div>
@@ -61,22 +75,32 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    margin-bottom: calc(var(--size-4) * -1);
+  }
+  .control button:first-of-type {
+    transform: rotate(180deg);
   }
   button {
     font-size: var(--scale-00);
     font-weight: var(--weight-medium);
-    padding: var(--size-2) var(--size-3);
+    /* padding: var(--size-2) var(--size-3); */
     background: none;
     box-shadow: none;
     border: none;
     display: flex;
     align-items: center;
+    margin: calc(var(--size-2) * -1);
     justify-content: center;
-    gap: 8px;
     cursor: pointer;
   }
   button:focus-visible {
     outline: none;
+  }
+  .volume-control {
+    margin-top: var(--size-2);
+    margin-bottom: var(--size-4);
+    z-index: 11;
+    width: 84%;
   }
   a {
     color: inherit;
