@@ -7,7 +7,6 @@ import {
 } from '../lib/data';
 import { currentMusic } from '../lib/stores';
 
-const AudioContext = window.AudioContext || (window as any).webkitAudioContext as AudioContext;
 export const SavedGainKey = 'savedGain';
 let audioContext: AudioContext | null = null;
 let globalGainNode: GainNode | null = null;
@@ -17,7 +16,7 @@ let globalGainNode: GainNode | null = null;
  */
 export function getAudioContext(): AudioContext {
   if (audioContext == null) {
-    audioContext = new AudioContext();
+    audioContext = new window.AudioContext();
   }
   return audioContext;
 }
@@ -87,7 +86,7 @@ export class MusicAndSoundMixer {
       this.playPromise = this._playFakeAudio();
       this.musicNode.source.addEventListener('ended', () => {
         if (!this.audio.paused) {
-          this.playMusic(true);
+          this.playMusic(true, false, true);
         }
       });
     }
@@ -102,9 +101,14 @@ export class MusicAndSoundMixer {
   }
 
   private async _playFakeAudio(): Promise<void> {
-    this.audio.src = 'sounds/silence.ogg';
+    this.audio.src = 'sounds/silence.mp3';
     this.audio.loop = true;
-    await this.audio.play();
+    try {
+      await this.audio.play();
+    } catch (e) {
+      window.alert("Running on safari? Enable autoplay in settings.");
+      window.location.href = window.location.href + "/enableAutoplay.gif";
+    }
     this._updateMetadata();
   }
 
@@ -243,7 +247,7 @@ export class MusicAndSoundMixer {
  * A wrapper for the Web Audio API. It will load the given sound and play it.
  * To create a sound, use the static method Sound.load.
  * @example
- * const sound = await Sound.load('sounds/test.ogg');
+ * const sound = await Sound.load('sounds/test.mp3');
  * sound.play();
  */
 export class Sound {

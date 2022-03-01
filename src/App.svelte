@@ -1,6 +1,7 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import type { LottiePlayer } from "@lottiefiles/lottie-player";
+  import './audio-context-patch.js';
   import './lottie-player.js';
   import FeedbackIcon from './lib/FeedbackIcon.svelte';
   import MusicControl from './lib/MusicControl.svelte'
