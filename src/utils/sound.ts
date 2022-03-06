@@ -79,6 +79,10 @@ export class MusicAndSoundMixer {
     // Preload next song asynchronously.
     Sound.load(`music/${nextSound.src}`, this.musicVolume, 'music');
 
+    this.soundNodes.forEach(async (s) => {
+      await s.play();
+    });
+
     const offset = (new Date().valueOf() - startDate.valueOf()) / 1000;
     if (this.musicNode) {
       this.musicNode.setVolume(this.musicVolume);
@@ -106,8 +110,9 @@ export class MusicAndSoundMixer {
     try {
       await this.audio.play();
     } catch (e) {
-      window.alert("Running on safari? Enable autoplay in settings.");
-      window.location.href = window.location.href + "/enableAutoplay.gif";
+      // eslint-disable-next-line no-alert
+      window.alert('Running on safari? Enable autoplay in settings.');
+      window.location.href += '/enableAutoplay.gif';
     }
     this._updateMetadata();
   }
@@ -161,6 +166,9 @@ export class MusicAndSoundMixer {
   public async stopMusic(): Promise<void> {
     if (this.playPromise !== undefined) {
       currentMusic.set(null);
+      this.soundNodes.forEach((node) => {
+        node.stop();
+      });
       await this.playPromise;
       this.audio.pause();
       this.musicNode?.stop();
@@ -255,7 +263,7 @@ export class Sound {
   private gainNode: GainNode = new GainNode(getAudioContext());
   public isPlaying = false;
 
-  private constructor(private readonly buffer: AudioBuffer, public src: string, volume?: number, type: 'sound' | 'music' = 'sound') {
+  private constructor(private readonly buffer: AudioBuffer, public src: string, volume?: number, private type: 'sound' | 'music' = 'sound') {
     if (volume) {
       this.setVolume((volume));
     }
@@ -264,6 +272,7 @@ export class Sound {
     this.source.buffer = this.buffer;
     this.source.connect(this.gainNode);
     if (type === 'sound') {
+      this.source.start();
       this.source.loop = true;
     } else {
       this.source.loop = false;
@@ -295,10 +304,11 @@ export class Sound {
     if (offset) {
       await sleep(offset);
     }
-    if (!this.isPlaying) {
+    this.source.connect(this.gainNode);
+    if (!this.isPlaying && this.type === 'music') {
       this.source.start(undefined, offset);
-      this.isPlaying = true;
     }
+    this.isPlaying = true;
   }
 
   /** This will stop the sound from playing. */
@@ -306,7 +316,9 @@ export class Sound {
     if (this.source && this.isPlaying) {
       try {
         this.isPlaying = false;
-        this.source.stop();
+        if (!this.isPlaying && this.type === 'music') {
+          this.source.stop();
+        }
         this.source.disconnect();
       } catch (e) {
         console.log('COULD NOT BE STOPPED: ', e);

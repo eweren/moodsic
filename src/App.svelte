@@ -5,7 +5,6 @@
   import './lottie-player.js';
   import FeedbackIcon from './lib/FeedbackIcon.svelte';
   import MusicControl from './lib/MusicControl.svelte'
-  import AddToHome from './lib/AddToHome.svelte'
   import { Lotties } from './lib/data';
   import SvgIcon from './lib/SvgIcon.svelte';
   import Volumes from './lib/Volumes.svelte';
@@ -72,7 +71,7 @@
 <svelte:body
 	on:mouseenter={() => handleClick()}
 	on:mousemove={() => handleClick()}
-	on:click|preventDefault={() => handleClick()}
+	on:click={() => handleClick()}
   on:contextmenu|preventDefault
 />
 
@@ -113,13 +112,12 @@
     <FeedbackIcon show={showControls || volumesOpen || feedbackOpen} bind:showInput={feedbackOpen} />
     <Volumes bind:showBox={volumesOpen} color={lottie.bottomColor}/>
     <FullScreen color={lottie.topColor} />
-    <AddToHome color={lottie.bottomColor} />
     <MusicControl color={lottie.bottomColor} bind:isPaused={isPaused} />
     <button in:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" class="backgroundImageButton" aria-label="Previous Background" style={`fill: ${lottie.bottomColor}`} on:click|stopPropagation={setLastBackground}>
         <SvgIcon name="prev" />
     </button>
     <button in:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" class="backgroundImageButton" aria-label="Next Background" style={`fill: ${lottie.bottomColor}`} on:click|stopPropagation={setNextBackground}>
-        <SvgIcon name="prev" />
+      <SvgIcon name="prev" />
     </button>
   {/if}
 </div>
