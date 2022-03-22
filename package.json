@@ -11,8 +11,12 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
     "@lottiefiles/lottie-player": "^1.5.5",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/svelte": "^3.1.0",
+    "@testing-library/user-event": "^13.5.0",
     "@thearc/eslint-config": "^0.0.5",
     "@tsconfig/svelte": "^2.0.1",
     "@types/jest": "^27.4.0",
