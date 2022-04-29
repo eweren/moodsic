@@ -11,6 +11,7 @@
   let description = "";
   let success = false;
   let feedbackTransmitted = false;
+  let submitSystemInformation = false;
 
   function playFeedback(): void {
     feedbackIcon?.setDirection(1);
@@ -31,9 +32,11 @@
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
 
+    const systemInformation = ` -- userAgent: ${navigator.userAgent} -- MediaSession: ${navigator.mediaSession?.metadata?.title} -- connection: ${(navigator.connection as any)?.effectiveType}`;
+
     const body = JSON.stringify({
       "title": title,
-      "description": description ?? ''
+      "description": (description ?? '') + (submitSystemInformation ? systemInformation: ""),
     });
     const requestOptions = {
       method: 'POST',
@@ -65,6 +68,10 @@
       <label>
         Description:
         <input on:keydown|stopPropagation placeholder="Little description please." type="text" bind:value={description} />
+      </label>
+      <label class="systemInfoCheckbox">
+        <input on:keydown|stopPropagation type="checkbox" bind:checked={submitSystemInformation} />
+        Submit system information
       </label>
       <button disabled={title.length < 4 || requesting} type="button" on:click|preventDefault|stopPropagation={() => sendFeedback()}>Send feedback!</button>
     </div>
@@ -112,7 +119,7 @@
     position: absolute;
     color: white;
     bottom: 0;
-    width: 200px;
+    width: 240px;
     right: 0;
     display: flex;
     flex-direction: column;
@@ -176,6 +183,14 @@
     opacity: 0.5;
     pointer-events: none;
     cursor: default;
+  }
+  .contentBox label.systemInfoCheckbox {
+    padding-top: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--size-1)
   }
 </style>
 

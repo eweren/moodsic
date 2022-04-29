@@ -11,7 +11,7 @@
 
 <div class="host">
   {#if showBox}
-  <div  in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
+  <div class="volumesWrapper" in:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ y: DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}">
     <div class="volumes" on:click|stopPropagation|preventDefault>
       <h2>Sounds</h2>
       {#each Sounds as sound}
@@ -30,9 +30,14 @@
 <style>
   .host {
     position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 7;
+  }
+  .volumesWrapper {
+    position: absolute;
     bottom: var(--size-4);
     left: var(--size-4);
-    z-index: 7;
   }
   .volumes::-webkit-scrollbar {
     display: none;
@@ -68,5 +73,9 @@
     bottom: 0;
     left: 0;
     cursor: pointer;
+    padding: 10px;
+  }
+  .loud:hover {
+    background-color: rgba(100, 100, 100, 0.2);
   }
 </style>

@@ -35,7 +35,11 @@
   .container {
     z-index: 7;
     position: absolute;
+    cursor: pointer;
     top: 0;
     right: 0;
+  }
+  .container:hover {
+    background-color: rgba(100, 100, 100, 0.2);
   }
 </style>
