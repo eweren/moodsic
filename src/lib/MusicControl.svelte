@@ -33,7 +33,7 @@
       <a href={$currentMusic.url}>{$currentMusic.title}</a>
     {/if}
     <div class="control">
-      <button aria-label="Play or stop Music" class="rotate-180" on:click|preventDefault|stopPropagation={onPrevious}>
+      <button aria-label="Play last song" class="rotate-180" on:click|preventDefault|stopPropagation={onPrevious}>
         <SvgIcon name="skip-forward" />
       </button>
       <button aria-label="Play or stop Music" style="z-index: 10" on:click|preventDefault|stopPropagation={onPlayPause}>
@@ -43,7 +43,7 @@
         <SvgIcon name="play" />
         {/if}
       </button>
-      <button aria-label="Play or stop Music" on:click|preventDefault|stopPropagation={onNext}>
+      <button aria-label="Play next song" on:click|preventDefault|stopPropagation={onNext}>
         <SvgIcon name="skip-forward" />
       </button>
     </div>

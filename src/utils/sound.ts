@@ -1,9 +1,11 @@
 import { sleep } from './utils';
 import {
-  MusicFiles,
+  Playlist1,
+  Playlist2,
+  Playlist3,
   SoundFile,
   Sounds,
-  TotalMusicDuration,
+  TotalMusicDurationPlaylist1,
 } from '../lib/data';
 import { currentMusic } from '../lib/stores';
 
@@ -54,13 +56,23 @@ export class MusicAndSoundMixer {
   private audio = document.createElement('audio');
   private playPromise: Promise<void> | null = null;
 
+  public currentPlaylistTitle: 'Chill' | 'Lo-Fi' | 'Background Music' = localStorage.getItem('lastPlaylist') as any ?? 'Chill';
+  public playlists = [
+    { playlist: Playlist1, title: 'Chill' },
+    { playlist: Playlist2, title: 'Lo-Fi' },
+    { playlist: Playlist3, title: 'Background Music' },
+  ];
+  private currentPlaylist: typeof Playlist1;
+
   private music: SoundFile;
 
   public constructor() {
     this.musicVolume = parseFloat(localStorage.getItem(SavedGainKey) ?? '0.5');
+    (window as any).mixer = this;
     currentMusic.subscribe((m) => {
       this.music = m;
     });
+    this.currentPlaylist = this.playlists.find((p) => p.title === this.currentPlaylistTitle)?.playlist ?? Playlist1;
   }
 
   /**
@@ -182,12 +194,12 @@ export class MusicAndSoundMixer {
    */
   public getNextSongWithStartDate(overrideStartDate?: Date): { sound: SoundFile, startDate: Date, nextSound: SoundFile } {
     const currentDateSeconds = (overrideStartDate ? overrideStartDate.valueOf() : new Date().valueOf()) / 1000;
-    const currentSecondInPlaylist = currentDateSeconds % TotalMusicDuration;
-    let relevantSong = MusicFiles[0];
+    const currentSecondInPlaylist = currentDateSeconds % TotalMusicDurationPlaylist1;
+    let relevantSong = this.currentPlaylist[0];
     let accDuration = 0;
     let currentSongSecondOffset = 0;
     const startDate = new Date();
-    for (const music of MusicFiles) {
+    for (const music of this.currentPlaylist) {
       if (accDuration < currentSecondInPlaylist && accDuration + music.duration > currentSecondInPlaylist) {
         relevantSong = music;
         currentSongSecondOffset = currentSecondInPlaylist - accDuration;
@@ -196,7 +208,45 @@ export class MusicAndSoundMixer {
       }
       accDuration += music.duration;
     }
-    return { nextSound: MusicFiles[MusicFiles.indexOf(relevantSong) + 1] ?? MusicFiles[0], sound: relevantSong, startDate };
+    return {
+      nextSound: this.currentPlaylist[this.currentPlaylist.indexOf(relevantSong) + 1] ?? this.currentPlaylist[0],
+      sound: relevantSong,
+      startDate,
+    };
+  }
+
+  public setPreviousPlaylist(): string {
+    switch (this.currentPlaylist) {
+      case Playlist1:
+        return this.setCurrentPlaylist(Playlist3);
+      case Playlist2:
+        return this.setCurrentPlaylist(Playlist1);
+      case Playlist3:
+        return this.setCurrentPlaylist(Playlist2);
+      default:
+        return this.setCurrentPlaylist(Playlist1);
+    }
+  }
+  public setNextPlaylist(): string {
+    switch (this.currentPlaylist) {
+      case Playlist1:
+        return this.setCurrentPlaylist(Playlist2);
+      case Playlist2:
+        return this.setCurrentPlaylist(Playlist3);
+      case Playlist3:
+        return this.setCurrentPlaylist(Playlist1);
+      default:
+        return this.setCurrentPlaylist(Playlist1);
+    }
+  }
+
+  private setCurrentPlaylist(playlist: typeof Playlist1): string {
+    this.stopMusic();
+    this.currentPlaylist = playlist;
+    this.currentPlaylistTitle = this.playlists.find((p) => p.playlist === playlist).title as any;
+    localStorage.setItem('lastPlaylist', this.currentPlaylistTitle);
+    this.playMusic();
+    return this.currentPlaylistTitle;
   }
 
   /**
@@ -204,14 +254,18 @@ export class MusicAndSoundMixer {
    */
   public getNextSong(): { sound: SoundFile, startDate: Date, nextSound: SoundFile } {
     let index = 0;
-    for (const music of MusicFiles) {
+    for (const music of this.currentPlaylist) {
       index++;
       if (music === this.music) {
         break;
       }
     }
     this.stopMusic();
-    return { nextSound: MusicFiles[index + 1] ?? MusicFiles[0], sound: MusicFiles[index] ?? MusicFiles[0], startDate: new Date() };
+    return {
+      nextSound: this.currentPlaylist[index + 1] ?? this.currentPlaylist[0],
+      sound: this.currentPlaylist[index] ?? this.currentPlaylist[0],
+      startDate: new Date(),
+    };
   }
 
   /**
@@ -219,7 +273,7 @@ export class MusicAndSoundMixer {
    */
   public getPrevSong(): { sound: SoundFile, startDate: Date, nextSound: SoundFile } {
     let index = 0;
-    for (const music of MusicFiles) {
+    for (const music of this.currentPlaylist) {
       if (music.src === this.music.src) {
         break;
       }
@@ -227,8 +281,8 @@ export class MusicAndSoundMixer {
     }
     this.stopMusic();
     return {
-      nextSound: MusicFiles[index - 2] ?? MusicFiles[MusicFiles.length - 2],
-      sound: MusicFiles[index - 1] ?? MusicFiles[MusicFiles.length - 1],
+      nextSound: this.currentPlaylist[index - 2] ?? this.currentPlaylist[this.currentPlaylist.length - 2],
+      sound: this.currentPlaylist[index - 1] ?? this.currentPlaylist[this.currentPlaylist.length - 1],
       startDate: new Date(),
     };
   }

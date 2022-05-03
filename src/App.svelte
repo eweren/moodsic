@@ -5,6 +5,7 @@
   import './lottie-player.js';
   import FeedbackIcon from './lib/FeedbackIcon.svelte';
   import MusicControl from './lib/MusicControl.svelte'
+  import PlaylistControl from './lib/PlaylistControl.svelte'
   import { Lotties } from './lib/data';
   import SvgIcon from './lib/SvgIcon.svelte';
   import Volumes from './lib/Volumes.svelte';
@@ -112,6 +113,7 @@
     <FeedbackIcon show={showControls || volumesOpen || feedbackOpen} bind:showInput={feedbackOpen} />
     <Volumes bind:showBox={volumesOpen} color={lottie.bottomColor}/>
     <FullScreen color={lottie.topColor} />
+    <PlaylistControl color={lottie.topColor} />
     <MusicControl color={lottie.bottomColor} bind:isPaused={isPaused} />
     <button in:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" out:fly="{{ x: -DEFAULT_TRANSITION_DISTANCE, duration: DEFAULT_TRANSITION_DURATION }}" class="backgroundImageButton" aria-label="Previous Background" style={`fill: ${lottie.bottomColor}`} on:click|stopPropagation={setLastBackground}>
         <SvgIcon name="prev" />
