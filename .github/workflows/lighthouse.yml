@@ -11,7 +11,6 @@ jobs:
         id: cfpages
         uses: WalshyDev/cf-pages-await@v1
         with:
-          commitHash: ${{ github.ref }}
           accountEmail: ${{ secrets.CF_ACCOUNT_EMAIL  }}
           apiKey: ${{ secrets.CF_API_KEY  }}
           accountId:  ${{ secrets.CF_ACCOUNT_ID}}
