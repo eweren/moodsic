@@ -1,10 +1,7 @@
 name: Lighthouse
 
 on:
-
   push:
-    branches:
-      - main
 
 jobs:
   lighthouse:
@@ -25,5 +22,6 @@ jobs:
         with:
           urls: https://moodsic.thearc.dev
           runs: 3
+          configPath: '.github/workflows/lighthouserc-assertions.json'
           serverBaseUrl: https://lighthouse.thearc.dev
           serverToken: ${{ secrets.SERVER_TOKEN }}
