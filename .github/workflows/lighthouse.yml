@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Await CF Pages
+        id: cfpages
         uses: WalshyDev/cf-pages-await@v1
         with:
+          commitHash: ${{ github.ref }}
           accountEmail: ${{ secrets.CF_ACCOUNT_EMAIL  }}
           apiKey: ${{ secrets.CF_API_KEY  }}
           accountId:  ${{ secrets.CF_ACCOUNT_ID}}
@@ -20,7 +22,7 @@ jobs:
       - name: Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v9
         with:
-          urls: ${{ steps.await-cf-pages.outputs.alias }}
+          urls: ${{ steps.cfpages.outputs.alias }}
           runs: 3
           configPath: '.github/workflows/lighthouserc-assertions.json'
           serverBaseUrl: https://lighthouse.thearc.dev
