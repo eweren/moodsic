@@ -80,13 +80,4 @@
   button:focus-visible {
     outline: none;
   }
-  .volume-control {
-    margin-top: var(--size-2);
-    margin-bottom: var(--size-4);
-    z-index: 11;
-    width: 84%;
-  }
-  a {
-    color: inherit;
-  }
 </style>
