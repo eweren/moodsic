@@ -20,7 +20,7 @@ jobs:
       - name: Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v9
         with:
-          urls: https://moodsic.thearc.dev
+          urls: ${{ steps.await-cf-pages.outputs.alias }}
           runs: 3
           configPath: '.github/workflows/lighthouserc-assertions.json'
           serverBaseUrl: https://lighthouse.thearc.dev
