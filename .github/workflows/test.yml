@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          version: 14
+      - name: Install and Build 🔧
+        run: |
+          npm ci
+          npm run build
+      - name: Test
+        run: |
+          npm test

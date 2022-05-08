@@ -1,0 +1,29 @@
+name: Lighthouse
+
+on:
+
+  push:
+    branches:
+      - main
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Await CF Pages
+        uses: WalshyDev/cf-pages-await@v1
+        with:
+          accountEmail: ${{ secrets.CF_ACCOUNT_EMAIL  }}
+          apiKey: ${{ secrets.CF_API_KEY  }}
+          accountId:  ${{ secrets.CF_ACCOUNT_ID}}
+          project: 'moodsic'
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v2.4.2
+      - name: Lighthouse CI Action
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: https://moodsic.thearc.dev
+          runs: 3
+          serverBaseUrl: https://lighthouse.thearc.dev
+          serverToken: ${{ secrets.SERVER_TOKEN }}
