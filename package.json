@@ -11,27 +11,27 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.16.7",
-    "@lottiefiles/lottie-player": "^1.5.5",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/svelte": "^3.1.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@thearc/eslint-config": "^0.0.5",
-    "@tsconfig/svelte": "^2.0.1",
-    "@types/jest": "^27.4.0",
-    "babel-jest": "^27.4.6",
-    "jest": "^27.4.7",
-    "svelte": "^3.44.0",
-    "svelte-check": "^2.2.7",
-    "svelte-preprocess": "^4.9.8",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.4",
-    "vite": "^2.8.0",
-    "vite-plugin-pwa": "^0.11.13",
-    "vite-plugin-svelte-svg": "^1.0.0"
+    "@babel/preset-typescript": "7.16.7",
+    "@lottiefiles/lottie-player": "1.5.7",
+    "@sveltejs/vite-plugin-svelte": "1.0.0-next.42",
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/svelte": "3.1.1",
+    "@testing-library/user-event": "13.5.0",
+    "@thearc/eslint-config": "0.0.5",
+    "@tsconfig/svelte": "2.0.1",
+    "@types/jest": "27.4.1",
+    "babel-jest": "27.5.1",
+    "jest": "27.5.1",
+    "svelte": "3.47.0",
+    "svelte-check": "2.7.0",
+    "svelte-preprocess": "4.10.6",
+    "tslib": "2.4.0",
+    "typescript": "4.6.4",
+    "vite": "2.9.6",
+    "vite-plugin-pwa": "0.11.13",
+    "vite-plugin-svelte-svg": "1.0.0"
   },
   "dependencies": {
-    "pollen-css": "^4.2.0"
+    "pollen-css": "4.3.0"
   }
 }
