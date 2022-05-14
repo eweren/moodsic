@@ -18,7 +18,7 @@
     "@testing-library/svelte": "3.1.1",
     "@testing-library/user-event": "13.5.0",
     "@thearc/eslint-config": "0.0.5",
-    "@tsconfig/svelte": "2.0.1",
+    "@tsconfig/svelte": "3.0.0",
     "@types/jest": "27.4.1",
     "babel-jest": "27.5.1",
     "jest": "27.5.1",
