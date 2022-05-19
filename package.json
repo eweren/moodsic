@@ -13,7 +13,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "7.16.7",
     "@lottiefiles/lottie-player": "1.5.7",
-    "@sveltejs/vite-plugin-svelte": "1.0.0-next.42",
+    "@sveltejs/vite-plugin-svelte": "1.0.0-next.44",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/svelte": "3.1.1",
     "@testing-library/user-event": "14.2.0",
