@@ -32,6 +32,6 @@
     "vite-plugin-svelte-svg": "1.0.0"
   },
   "dependencies": {
-    "pollen-css": "4.3.0"
+    "pollen-css": "4.3.1"
   }
 }
