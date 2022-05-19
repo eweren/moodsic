@@ -17,7 +17,7 @@
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/svelte": "3.1.1",
     "@testing-library/user-event": "14.2.0",
-    "@thearc/eslint-config": "0.0.5",
+    "@thearc/eslint-config": "0.0.10",
     "@tsconfig/svelte": "3.0.0",
     "@types/jest": "27.4.1",
     "babel-jest": "27.5.1",
