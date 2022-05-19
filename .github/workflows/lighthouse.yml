@@ -17,7 +17,7 @@ jobs:
           project: 'moodsic'
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout
-        uses: actions/checkout@v2.4.2
+        uses: actions/checkout@v3.0.2
       - name: Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v9
         with:
